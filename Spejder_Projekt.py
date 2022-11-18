@@ -13,43 +13,55 @@ layout = [[sg.Text('write your full name:', size=(20, 1)), sg.InputText()],
 
 window = sg.Window('Spejdersport', layout, margins=(100, 100))
 window.read()
+def reset_fields():
+    for x in values:
+        window.Element(x).update(background_color="white")
+
+def update_error(Errormsg,number):
+    reset_fields()
+    window.Element("output").update(Errormsg)
+    window.Element(number).update(background_color="red")
+
+def valid(validationdata):
+    if all(validationdata[y] for y in validationdata):
+        print("your fields were not empty good job!")
+    else:
+        print("one of your input fields are empty")
+        window.Element("output").update("one of your input fields are empty")
+        return False
+    if all(x.isspace() or x.isalpha() for x in validationdata[0]):
+        print("correct name")
+    else:
+        print("incorrect name")
+        update_error("incorrect name",0)
+        return False
+    if "@gmail.com" in validationdata[1]:
+        print("correct email")
+    else:
+        print("incorrect email")
+        update_error("incorrect email",1)
+        return False
+    if len(validationdata[2]) == 8 and validationdata[2].isnumeric():
+        print("correct phone number")
+    else:
+        print("incorrect phone number")
+        update_error("incorrect phone number",2)
+        return False
+    if all(x.isalnum() or x.isnumeric() for x in validationdata[3]):
+        print("correct adress")
+    else:
+        print("incorrect adress")
+        update_error("incorrect adress",3)
+        return False
+    return True
 
 while True:
     event, values = window.read()
     if event == 'close' or event == sg.WINDOW_CLOSED:
         break
     if event == 'Save':
-        if all(not y for y in values):
-            print("your fields were not empty good job!")
-        else:
-            print("one of your input fields are empty")
-            window.Element("output").update("one of your input fields are empty")
+        if not valid(values):
             continue
-        if all(x.isspace() or x.isalpha() for x in values[0]):
-            print("correct name")
-        else:
-            print("incorrect name")
-            window.Element("output").update("incorrect name")
-            continue
-        if "@gmail.com" in values[1]:
-            print("correct email")
-        else:
-            print("incorrect email")
-            window.Element("output").update("incorrect email")
-            continue
-        if len(values[2]) == 8 and values[2].isnumeric():
-            print("correct phone number")
-        else:
-            print("incorrect phone number")
-            window.Element("output").update("incorrect phone number")
-            continue
-        if all(x.isalnum() or x.isnumeric() for x in values[3]):
-            print("correct adress")
-        else:
-            print("incorrect adress")
-            window.Element("output").update("incorrect adress")
-            continue
-        print(len(values))
         with open('Brugerfile.txt', 'w') as f:
             f.write('Name: ')
             f.write(values[0])
