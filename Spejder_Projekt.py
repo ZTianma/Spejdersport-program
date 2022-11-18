@@ -23,7 +23,13 @@ def reset_fields():
 def update_error(errormsg,number):
     reset_fields()
     window.Element("output").update(errormsg)
-    window.Element(number).update(background_color="red")
+    print(number)
+    if number == 4:
+        for x in values:
+            if not values[x]:
+                window.Element(x).update(background_color="red")
+    else:
+        window.Element(number).update(background_color="red")
 
 
 def valid(validationdata):
@@ -31,7 +37,7 @@ def valid(validationdata):
         print("your fields were not empty good job!")
     else:
         print("one of your input fields are empty")
-        window.Element("output").update("one of your input fields are empty")
+        update_error("one of your input fields are empty",4)
         return False
     if all(x.isspace() or x.isalpha() for x in validationdata[0]):
         print("correct name")
