@@ -20,7 +20,7 @@ def reset_fields():
         window.Element(x).update(background_color="white")
 
 
-def update_error(errormsg,number):
+def update_error(errormsg, number):
     reset_fields()
     window.Element("output").update(errormsg)
     print(number)
@@ -37,33 +37,34 @@ def valid(validationdata):
         print("your fields were not empty good job!")
     else:
         print("one of your input fields are empty")
-        update_error("one of your input fields are empty",4)
+        update_error("one of your input fields are empty", 4)
         return False
     if all(x.isspace() or x.isalpha() for x in validationdata[0]):
         print("correct name")
     else:
         print("incorrect name")
-        update_error("incorrect name",0)
+        update_error("incorrect name", 0)
         return False
     if "@gmail.com" in validationdata[1]:
         print("correct email")
     else:
         print("incorrect email")
-        update_error("incorrect email",1)
+        update_error("incorrect email", 1)
         return False
     if len(validationdata[2]) == 8 and validationdata[2].isnumeric():
         print("correct phone number")
     else:
         print("incorrect phone number")
-        update_error("incorrect phone number",2)
+        update_error("incorrect phone number", 2)
         return False
     if all(x.isalnum() or x.isnumeric() for x in validationdata[3]):
         print("correct adress")
     else:
         print("incorrect adress")
-        update_error("incorrect adress",3)
+        update_error("incorrect adress", 3)
         return False
     return True
+
 
 while True:
     event, values = window.read()
