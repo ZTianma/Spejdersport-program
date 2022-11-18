@@ -13,14 +13,18 @@ layout = [[sg.Text('write your full name:', size=(20, 1)), sg.InputText()],
 
 window = sg.Window('Spejdersport', layout, margins=(100, 100))
 window.read()
+
+
 def reset_fields():
     for x in values:
         window.Element(x).update(background_color="white")
 
-def update_error(Errormsg,number):
+
+def update_error(errormsg,number):
     reset_fields()
-    window.Element("output").update(Errormsg)
+    window.Element("output").update(errormsg)
     window.Element(number).update(background_color="red")
+
 
 def valid(validationdata):
     if all(validationdata[y] for y in validationdata):
