@@ -7,12 +7,27 @@ import PySimpleGUI as sg
 layout = [[sg.Text('write your full name:', size=(20, 1)), sg.InputText()],
           [sg.Text('write your email:     ', size=(20, 1)), sg.InputText()],
           [sg.Text('write your phone nr.:', size=(20, 1)), sg.InputText()],
-          [sg.Text('write your adress:   ', size=(20, 1)), sg.InputText()],
+          [sg.Text('write your address:   ', size=(20, 1)), sg.InputText()],
           [sg.Text("strip", size=(50, 1), key='output', text_color="red")],
           [sg.Button('Save'), sg.Button('close')]]
 
 window = sg.Window('Spejdersport', layout, margins=(100, 100))
 window.read()
+
+
+def save():
+    with open('Brugerfile.txt', 'w') as f:
+        f.write('Name: ')
+        f.write(values[0])
+        f.write('\n')
+        f.write('Email: ')
+        f.write(values[1])
+        f.write('\n')
+        f.write('Phone nr: ')
+        f.write(values[2])
+        f.write('\n')
+        f.write('Address: ')
+        f.write(values[3])
 
 
 def reset_fields():
@@ -43,25 +58,25 @@ def valid(validationdata):
         print("correct name")
     else:
         print("incorrect name")
-        update_error("incorrect name", 0)
+        update_error("invalid name", 0)
         return False
     if "@gmail.com" in validationdata[1]:
         print("correct email")
     else:
         print("incorrect email")
-        update_error("incorrect email", 1)
+        update_error("invalid email", 1)
         return False
     if len(validationdata[2]) == 8 and validationdata[2].isnumeric():
         print("correct phone number")
     else:
         print("incorrect phone number")
-        update_error("incorrect phone number", 2)
+        update_error("invalid phone number", 2)
         return False
     if all(x.isalnum() or x.isnumeric() for x in validationdata[3]):
-        print("correct adress")
+        print("correct address")
     else:
-        print("incorrect adress")
-        update_error("incorrect adress", 3)
+        print("incorrect address")
+        update_error("invalid address", 3)
         return False
     return True
 
@@ -73,16 +88,5 @@ while True:
     if event == 'Save':
         if not valid(values):
             continue
-        with open('Brugerfile.txt', 'w') as f:
-            f.write('Name: ')
-            f.write(values[0])
-            f.write('\n')
-            f.write('Email: ')
-            f.write(values[1])
-            f.write('\n')
-            f.write('phone nr: ')
-            f.write(values[2])
-            f.write('\n')
-            f.write('Adress: ')
-            f.write(values[3])
+        save()
         break
